@@ -31,3 +31,103 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+/* Burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 30px; /* Adjusted width for smaller size */
+  height: 24px; /* Adjusted height for smaller size */
+  right: 16px;
+  top: 20px; /* Adjusted position to move it down */
+  z-index: 1000;
+}
+
+/* Customize the hamburger bars */
+.bm-burger-bars {
+  background: #373a47;
+  height: 3px; /* Adjusted height for thinner bars */
+  border-radius: 2px; /* Rounded corners */
+}
+
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+.bm-burger-bars:before,
+.bm-burger-bars:after {
+  background: #373a47;
+  height: 3px; /* Adjusted height for thinner bars */
+  border-radius: 2px; /* Rounded corners */
+}
+
+.bm-burger-bars:before {
+  top: -8px; /* Adjusted position */
+}
+
+.bm-burger-bars:after {
+  top: 8px; /* Adjusted position */
+}
+
+/* Cross button */
+.bm-cross-button {
+  height: 20px; /* Adjusted height for smaller size */
+  width: 20px; /* Adjusted width for smaller size */
+}
+
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-cross-button:hover .bm-cross {
+  background: black;
+}
+
+/* Menu */
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  z-index: 1001;
+}
+
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.menu-item {
+  display: block;
+  color: white;
+  padding: 10px 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-item:hover {
+  color: #ffa500;
+}
