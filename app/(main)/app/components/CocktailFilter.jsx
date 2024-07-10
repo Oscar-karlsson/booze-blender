@@ -14,7 +14,7 @@ const customCheckboxStyles = {
   labelChecked: 'text-sm text-orange-500',
 };
 
-const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters }) => {
+const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters, filteredCount }) => {
   useEffect(() => {
     if (isOpen) {
       Modal.setAppElement('#__next');
@@ -42,7 +42,6 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters }) => {
     }));
   };
 
-
   const handleMultiCheckboxChange = (option, action) => {
     const currentSelections = filters[action.name] || [];
     const isSelected = currentSelections.some(
@@ -67,7 +66,7 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters }) => {
   };
 
   return (
-<Modal
+    <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       shouldCloseOnOverlayClick={true}
@@ -161,12 +160,13 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters }) => {
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Cocktail Type</h3>
             {[
-              { value: 'classic', label: 'Classic' },
-              { value: 'tropical', label: 'Tropical' },
-              { value: 'shots', label: 'Shots' },
-              { value: 'creamy', label: 'Creamy' },
-              { value: 'fancy', label: 'Fancy' },
-              // Add more options
+              { value: 'cocktail', label: 'Cocktail' },
+              { value: 'ordinary drink', label: 'Ordinary Drink' },
+              { value: 'shot', label: 'Shot' },
+              { value: 'punch / party drink', label: 'Party Drink' },
+              { value: 'beer', label: 'Beer' },
+            
+              // Add more options if needed
             ].map((option) => (
               <label key={option.value} className={`${customCheckboxStyles.container} cursor-pointer`}>
                 <span className={filters.cocktailType?.some(
@@ -202,7 +202,7 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters }) => {
             onClick={onRequestClose}
             className="w-full bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-500"
           >
-            Show
+            Show ({filteredCount})
           </button>
         </div>
       </div>
