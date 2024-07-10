@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { FaCheck } from "react-icons/fa";
 
@@ -14,7 +14,15 @@ const customCheckboxStyles = {
   labelChecked: 'text-sm text-orange-500',
 };
 
-const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters, filteredCount }) => {
+const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters, filteredCount, glassTypes, alcoholicOptions, categories, ingredients }) => {
+  const [showMore, setShowMore] = useState({
+    baseSpirit: false,
+    cocktailType: false,
+    glassType: false,
+    alcoholic: false,
+    ingredients: false,
+  });
+
   useEffect(() => {
     if (isOpen) {
       Modal.setAppElement('#__next');
@@ -58,12 +66,53 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters, filteredC
 
   const handleClearAll = () => {
     setFilters({
-      ...filters,
       sortBy: [{ value: 'name', label: 'Name' }],
       baseSpirit: [],
       cocktailType: [],
+      glassType: [],
+      alcoholic: [],
+      ingredients: [],
     });
   };
+
+  const renderOptions = (options, name, showMore) => (
+    <>
+      {options.slice(0, showMore ? options.length : 5).map((option) => (
+        <label key={option.value} className={`${customCheckboxStyles.container} cursor-pointer`}>
+          <span className={filters[name]?.some(
+            (selection) => selection.value === option.value
+          ) ? customCheckboxStyles.labelChecked : customCheckboxStyles.label}>{option.label}</span>
+          <div className={customCheckboxStyles.checkboxContainer}>
+            <input
+              type="checkbox"
+              className={customCheckboxStyles.checkbox}
+              checked={
+                filters[name]?.some(
+                  (selection) => selection.value === option.value
+                ) || false
+              }
+              onChange={() => handleMultiCheckboxChange(option, { name })}
+            />
+            <div className={filters[name]?.some(
+              (selection) => selection.value === option.value
+            ) ? customCheckboxStyles.customCheckboxChecked : customCheckboxStyles.customCheckbox}>
+              {filters[name]?.some(
+                (selection) => selection.value === option.value
+              ) && <FaCheck className={customCheckboxStyles.checkmark} />}
+            </div>
+          </div>
+        </label>
+      ))}
+      {options.length > 5 && (
+        <button
+          onClick={() => setShowMore((prevState) => ({ ...prevState, [name]: !prevState[name] }))}
+          className="text-orange-400 hover:text-orange-500 mt-2"
+        >
+          {showMore ? 'Show less' : 'Show more'}
+        </button>
+      )}
+    </>
+  );
 
   return (
     <Modal
@@ -123,78 +172,41 @@ const CocktailFilter = ({ isOpen, onRequestClose, filters, setFilters, filteredC
 
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Base Spirit</h3>
-            {[
+            {renderOptions([
               { value: 'vodka', label: 'Vodka' },
               { value: 'gin', label: 'Gin' },
               { value: 'rum', label: 'Rum' },
+              { value: 'tequila', label: 'Tequila' },
+              { value: 'whiskey', label: 'Whiskey'},
+              { value: 'brandy', label: 'Brandy'}
               // Add more options
-            ].map((option) => (
-              <label key={option.value} className={`${customCheckboxStyles.container} cursor-pointer`}>
-                <span className={filters.baseSpirit?.some(
-                  (selection) => selection.value === option.value
-                ) ? customCheckboxStyles.labelChecked : customCheckboxStyles.label}>{option.label}</span>
-                <div className={customCheckboxStyles.checkboxContainer}>
-                  <input
-                    type="checkbox"
-                    className={customCheckboxStyles.checkbox}
-                    checked={
-                      filters.baseSpirit?.some(
-                        (selection) => selection.value === option.value
-                      ) || false
-                    }
-                    onChange={() => handleMultiCheckboxChange(option, { name: 'baseSpirit' })}
-                  />
-                  <div className={filters.baseSpirit?.some(
-                    (selection) => selection.value === option.value
-                  ) ? customCheckboxStyles.customCheckboxChecked : customCheckboxStyles.customCheckbox}>
-                    {filters.baseSpirit?.some(
-                      (selection) => selection.value === option.value
-                    ) && <FaCheck className={customCheckboxStyles.checkmark} />}
-                  </div>
-                </div>
-              </label>
-            ))}
+            ], 'baseSpirit', showMore.baseSpirit)}
           </div>
           <hr className="my-4 border-gray-200" />
 
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Cocktail Type</h3>
-            {[
-              { value: 'cocktail', label: 'Cocktail' },
-              { value: 'ordinary drink', label: 'Ordinary Drink' },
-              { value: 'shot', label: 'Shot' },
-              { value: 'punch / party drink', label: 'Party Drink' },
-              { value: 'beer', label: 'Beer' },
-            
-              // Add more options if needed
-            ].map((option) => (
-              <label key={option.value} className={`${customCheckboxStyles.container} cursor-pointer`}>
-                <span className={filters.cocktailType?.some(
-                  (selection) => selection.value === option.value
-                ) ? customCheckboxStyles.labelChecked : customCheckboxStyles.label}>{option.label}</span>
-                <div className={customCheckboxStyles.checkboxContainer}>
-                  <input
-                    type="checkbox"
-                    className={customCheckboxStyles.checkbox}
-                    checked={
-                      filters.cocktailType?.some(
-                        (selection) => selection.value === option.value
-                      ) || false
-                    }
-                    onChange={() => handleMultiCheckboxChange(option, { name: 'cocktailType' })}
-                  />
-                  <div className={filters.cocktailType?.some(
-                    (selection) => selection.value === option.value
-                  ) ? customCheckboxStyles.customCheckboxChecked : customCheckboxStyles.customCheckbox}>
-                    {filters.cocktailType?.some(
-                      (selection) => selection.value === option.value
-                    ) && <FaCheck className={customCheckboxStyles.checkmark} />}
-                  </div>
-                </div>
-              </label>
-            ))}
+            {renderOptions(categories, 'cocktailType', showMore.cocktailType)}
           </div>
           <hr className="my-4 border-gray-200" />
+
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold">Glass Type</h3>
+            {renderOptions(glassTypes, 'glassType', showMore.glassType)}
+          </div>
+          <hr className="my-4 border-gray-200" />
+
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold">Alcoholic</h3>
+            {renderOptions(alcoholicOptions, 'alcoholic', showMore.alcoholic)}
+          </div>
+          <hr className="my-4 border-gray-200" />
+
+          <div className="mb-4">
+  <h3 className="text-lg font-semibold">Ingredients</h3>
+  {renderOptions(ingredients, 'ingredients', showMore.ingredients)}
+  <hr className="my-4 border-gray-200" /> {/* Add separator */}
+</div>
         </div>
 
         <div className="mt-0">
