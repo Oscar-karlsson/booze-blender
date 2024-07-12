@@ -115,20 +115,19 @@ const CocktailsPage = () => {
             />
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredCocktails.map(cocktail => (
-                    <div key={cocktail.idDrink} className="bg-white p-4 rounded shadow-md">
-                        <img 
-                            src={cocktail.strDrinkThumb} 
-                            alt={cocktail.strDrink} 
-                            className="w-full h-48 object-cover rounded mb-4"
-                        />
-                        <h2 className="text-lg font-bold">{cocktail.strDrink}</h2>
-                        <p className="text-gray-600">{cocktail.strCategory}</p>
-                        <Link href={`/cocktail/${cocktail.idDrink}`} className="text-orange-400 hover:text-orange-500">
-                            View Details
-                        </Link>
-                    </div>
-                ))}
+            {filteredCocktails.map(cocktail => (
+    <Link href={`/app/cocktails/${cocktail.idDrink}`} passHref key={cocktail.idDrink}>
+        <div className="bg-white p-4 rounded shadow-md cursor-pointer">
+            <img 
+                src={cocktail.strDrinkThumb} 
+                alt={cocktail.strDrink} 
+                className="w-full h-48 object-cover rounded mb-4"
+            />
+            <h2 className="text-lg font-bold">{cocktail.strDrink}</h2>
+            <p className="text-gray-600">{cocktail.strCategory}</p>
+        </div>
+    </Link>
+))}
             </div>
 
             {isLoading && <div className="text-center mt-4">Loading more cocktails...</div>}

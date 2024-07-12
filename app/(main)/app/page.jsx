@@ -137,21 +137,23 @@ const Discover = () => {
   <h2 className="text-xl font-bold mb-4">Featured Cocktails</h2>
   <Slider {...settings} key={cocktails.length}>
   {cocktails.map((cocktail) => (
-      <div key={cocktail.idDrink} className="p-2">
+    <Link href={`/app/cocktails/${cocktail.idDrink}`} key={cocktail.idDrink}>
+      <div className="p-2">
         <div className="bg-white">
           <img
             src={cocktail.strDrinkThumb}
             alt={cocktail.strDrink}
             className="w-full object-cover rounded-t"
           />
-        <div className="p-4 rounded-b">
-  <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strDrink}</h3>
-  <p className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strCategory}</p>
-</div>
+          <div className="p-4 rounded-b">
+            <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strDrink}</h3>
+            <p className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strCategory}</p>
+          </div>
         </div>
       </div>
-    ))}
-  </Slider>
+    </Link>
+  ))}
+</Slider>
 </section>
 
 

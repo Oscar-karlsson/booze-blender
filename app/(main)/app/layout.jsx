@@ -9,10 +9,10 @@ export default function Layout({ children }) {
   }, []);
 
   return (
-    <div id="__next" className="bg-bgColor">
+    <div id="__next" className="bg-bgColor min-h-screen flex flex-col">
       <Navbar />
-      <div className="pt-16 pb-20">
-        <main>{children}</main>
+      <div className="flex-grow pt-16 pb-20 flex flex-col">
+        <main className="flex-grow">{children}</main>
       </div>
     </div>
   );
