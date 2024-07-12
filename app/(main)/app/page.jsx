@@ -157,21 +157,21 @@ const Discover = () => {
 </section>
 
 
-        <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Base Spirits</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {baseSpirits.map((ingredient) => (
-              <Link href={`/ingredient/${ingredient.strIngredient1}`} key={ingredient.strIngredient1} className="bg-white rounded shadow p-4 text-center hover:bg-orange-100">
-             <img
-  src={getIngredientImageUrl(ingredient.strIngredient1, 'Medium')}
-  alt={ingredient.strIngredient1}
-  className="w-full h-48 object-contain rounded mb-4"
-/>
-                {ingredient.strIngredient1}
-              </Link>
-            ))}
-          </div>
-        </section>
+<section className="mb-8">
+  <h2 className="text-xl font-bold mb-4">Base Spirits</h2>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    {baseSpirits.map((ingredient) => (
+      <Link href={`/app/cocktails/spirit/${ingredient.strIngredient1.toLowerCase()}`} key={ingredient.strIngredient1} className="bg-white rounded shadow p-4 text-center hover:bg-orange-100">
+        <img
+          src={getIngredientImageUrl(ingredient.strIngredient1, 'Medium')}
+          alt={ingredient.strIngredient1}
+          className="w-full h-48 object-contain rounded mb-4"
+        />
+        {ingredient.strIngredient1}
+      </Link>
+    ))}
+  </div>
+</section>
 
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-4">Cocktail Types</h2>
