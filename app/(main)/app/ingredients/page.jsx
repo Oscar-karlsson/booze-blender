@@ -5,28 +5,26 @@ import { fetchIngredients } from '@/lib/api';
 import ingredientTypes from '@/lib/ingredientTypes';
 
 // Define the mapping object for background colors
-const backgroundColorMap = {
-    'Spirit': 'bg-blue-100',
-    'Juice': 'bg-green-100',
-    'Liqueur': 'bg-purple-100',
-    'Fruit': 'bg-red-100',
-    'Mixer': 'bg-yellow-100',
-    'Herb': 'bg-teal-100',
-    'Vegetable': 'bg-orange-100',
-    'Dairy': 'bg-pink-100',
-    'Syrup': 'bg-brown-100',
-    'Soda': 'bg-gray-100',
-    'Wine': 'bg-indigo-100',
-    'Tea': 'bg-lime-100',
-    'Coffee': 'bg-amber-100',
-    'Water': 'bg-light-blue-100',
-    'Garnish': 'bg-purple-100',
-    'Beer': 'bg-amber-100',
-    'Non-Alcoholic': 'bg-gray-200',
-};
-
-// Function to get the background color based on the type
 const getBackgroundColor = (type) => {
+    const backgroundColorMap = {
+        'Spirit': 'bg-blue-100',
+        'Juice': 'bg-green-100',
+        'Liqueur': 'bg-purple-100',
+        'Fruit': 'bg-red-100',
+        'Mixer': 'bg-yellow-100',
+        'Herb': 'bg-teal-100',
+        'Vegetable': 'bg-orange-100',
+        'Dairy': 'bg-pink-100',
+        'Syrup': 'bg-brown-100',
+        'Soda': 'bg-gray-100',
+        'Wine': 'bg-indigo-100',
+        'Tea': 'bg-lime-100',
+        'Coffee': 'bg-amber-100',
+        'Water': 'bg-light-blue-100',
+        'Garnish': 'bg-purple-100',
+        'Beer': 'bg-amber-100',
+        'Non-Alcoholic': 'bg-gray-200',
+    };
     return backgroundColorMap[type] || 'bg-gray-100'; // Default color if type is not found
 };
 
@@ -40,22 +38,22 @@ const IngredientsPage = () => {
             setIsLoading(true);
             const ingredientsData = await fetchIngredients();
             const enhancedIngredients = ingredientsData.map(ingredient => {
-                const nameKey = ingredient.strIngredient1.replace(/ /g, '_');
-                const details = ingredientTypes.ingredients.find(item => item.name.replace(/ /g, '_') === nameKey) || {};
+                const nameKey = ingredient.strIngredient1.replace(/ /g, '_').toLowerCase();
+                const details = ingredientTypes.ingredients.find(item => item.name.replace(/ /g, '_').toLowerCase() === nameKey) || {};
                 return {
                     ...ingredient,
                     type: details.type || 'Unknown',
                     shortDescription: details.shortDescription || 'No description available'
                 };
             });
-    
+
             // Sort the ingredients alphabetically by their names
             enhancedIngredients.sort((a, b) => a.strIngredient1.localeCompare(b.strIngredient1));
-    
+
             setIngredients(enhancedIngredients);
             setIsLoading(false);
         };
-    
+
         loadIngredients();
     }, []);
     const filteredIngredients = ingredients.filter(ingredient =>
@@ -79,19 +77,17 @@ const IngredientsPage = () => {
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredIngredients.map(ingredient => (
-                    <div 
+                    <Link 
                         key={ingredient.strIngredient1} 
-                        className={`bg-white p-4 rounded shadow-md flex items-center transform transition duration-500 ease-in-out hover:bg-gray-200 hover:scale-105 cursor-pointer ${getBackgroundColor(ingredient.type)}`}
+                        href={`/app/ingredients/${ingredient.strIngredient1.toLowerCase()}`}
+                        className={`p-4 rounded shadow-md flex items-center transform transition duration-500 ease-in-out hover:bg-gray-200 hover:scale-105 cursor-pointer ${getBackgroundColor(ingredient.type)}`}
                     >
                         <img src={`https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png`} alt={ingredient.strIngredient1} className="mr-4" style={{height: '100%'}} />
                         <div>
                             <h2 className="text-lg font-bold">{ingredient.strIngredient1}</h2>
                             <p className="text-gray-600">{ingredient.shortDescription}</p>
-                            <Link href={`/ingredient/${ingredient.strIngredient1.toLowerCase()}`} className="text-orange-400 hover:text-orange-500">
-                                View Details
-                            </Link>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
@@ -99,5 +95,6 @@ const IngredientsPage = () => {
         </div>
     );
 };
+
 
 export default IngredientsPage;
