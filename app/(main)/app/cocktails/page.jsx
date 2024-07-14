@@ -4,6 +4,7 @@ import CocktailFilter from '../components/CocktailFilter';
 import Link from 'next/link';
 import { IoFilter } from "react-icons/io5";
 import { fetchAllCocktailsInBatches, fetchGlassTypes, fetchAlcoholicOptions, fetchCategories, fetchIngredients } from '@/lib/api';
+import cocktailCategories from '@/lib/cocktailCategories';
 
 const filterCocktails = (cocktails, filters, searchTerm) => {
     return cocktails.filter(cocktail => {
@@ -115,24 +116,42 @@ const CocktailsPage = () => {
             />
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredCocktails.map(cocktail => (
-    <Link href={`/app/cocktails/${cocktail.idDrink}`} passHref key={cocktail.idDrink}>
-        <div className="bg-white p-4 rounded shadow-md cursor-pointer">
-            <img 
-                src={cocktail.strDrinkThumb} 
-                alt={cocktail.strDrink} 
-                className="w-full h-48 object-cover rounded mb-4"
-            />
-            <h2 className="text-lg font-bold">{cocktail.strDrink}</h2>
-            <p className="text-gray-600">{cocktail.strCategory}</p>
-        </div>
-    </Link>
-))}
+                {filteredCocktails.map(cocktail => {
+                    // Collect ingredients
+                    const ingredients = [];
+                    for (let i = 1; i <= 15; i++) {
+                        const ingredient = cocktail[`strIngredient${i}`];
+                        if (ingredient) ingredients.push(ingredient);
+                    }
+
+                    return (
+                        <Link href={`/app/cocktails/${cocktail.idDrink}`} passHref key={cocktail.idDrink}>
+                            <div className="bg-white rounded shadow-md cursor-pointer flex">
+                                <img 
+                                    src={cocktail.strDrinkThumb} 
+                                    alt={cocktail.strDrink} 
+                                    className="h-full object-cover rounded-l"
+                                    style={{ width: '50%' }}
+                                />
+                                <div className="p-4 flex flex-col justify-between" style={{ width: '50%' }}>
+                                    <div>
+                                        <h2 className="text-lg font-bold">{cocktail.strDrink}</h2>
+                                        <p className="text-gray-600">{cocktailCategories[cocktail.strCategory] || cocktail.strCategory}</p>
+                                    </div>
+                                    <div className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                                        {ingredients.join(', ')}
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
 
             {isLoading && <div className="text-center mt-4">Loading more cocktails...</div>}
         </div>
     );
 };
+
 
 export default CocktailsPage;
