@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaCompass, FaUserTie } from "react-icons/fa";
 import { TbBottleFilled } from "react-icons/tb";
-import { LiaCocktailSolid } from "react-icons/lia";
+import { FaCocktail } from "react-icons/fa";
 import { MdManageAccounts } from "react-icons/md";
 import { IoIosNotificationsOutline } from "react-icons/io";
 
@@ -21,7 +21,7 @@ const Navbar = () => {
                         <span>Discover</span>
                     </Link>
                     <Link href="/app/cocktails" className={`hover:text-orange-400 flex flex-col items-center justify-center ${pathname === '/app/cocktails' ? 'text-orange-500' : ''}`}>
-                        <LiaCocktailSolid />
+                    <FaCocktail />
                         <span>Cocktails</span>
                     </Link>
                     <Link href="/app/ingredients" className={`hover:text-orange-400 flex flex-col items-center justify-center ${pathname === '/app/ingredients' ? 'text-orange-500' : ''}`}>
@@ -49,7 +49,7 @@ const Navbar = () => {
                     <span className="text-xs">Discover</span>
                 </Link>
                 <Link href="/app/cocktails" className={`hover:text-orange-400 flex flex-col items-center justify-center ${pathname === '/app/cocktails' ? 'text-orange-500' : ''}`}>
-                    <LiaCocktailSolid />
+                <FaCocktail />
                     <span className="text-xs">Cocktails</span>
                 </Link>
                 <Link href="/app/ingredients" className={`hover:text-orange-400 flex flex-col items-center justify-center ${pathname === '/app/ingredients' ? 'text-orange-500' : ''}`}>
