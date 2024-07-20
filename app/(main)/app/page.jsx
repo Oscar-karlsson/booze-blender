@@ -4,10 +4,8 @@ import Link from 'next/link';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { fetchCocktails, fetchBaseSpirits, fetchCocktailTypes, fetchCocktailById } from '@/lib/api';
+import { fetchCocktailById, fetchBaseSpirits, fetchNonAlcoholicCocktails } from '@/lib/api';
 import cocktailCategories from '@/lib/cocktailCategories';
-
-
 
 const baseSpiritsList = [
   'Vodka', 
@@ -24,7 +22,7 @@ const cocktailTypesNames = {
   'Milk / Float / Shake': 'Creamy Cocktails',
   'Shot': 'Shots',
   'Punch / Party Drink': 'Party Punches',
-  'Soft Drink / Soda': 'Non-Alcoholic Cocktails'
+  'Non alcoholic': 'Non-Alcoholic Cocktails'
 };
 
 const cocktailTypeImageMap = {
@@ -33,7 +31,7 @@ const cocktailTypeImageMap = {
   'Milk / Float / Shake': '/images/creamy-cocktails.png',
   'Shot': '/images/shots.png',
   'Punch / Party Drink': '/images/party-punches.png',
-  'Soft Drink / Soda': '/images/non-alcoholic-cocktails.png'
+  'Non alcoholic': '/images/non-alcoholic-cocktails.png'
 };
 
 const getCocktailTypeImageUrl = (type) => {
@@ -47,7 +45,7 @@ const Discover = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cocktails, setCocktails] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [baseSpirits, setBaseSpirits] = useState([]); 
+  const [baseSpirits, setBaseSpirits] = useState([]);
 
   useEffect(() => {
     const getFeaturedCocktails = async () => {
@@ -123,7 +121,7 @@ const Discover = () => {
       
       <div className="container mx-auto mt-6">
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Featured Cocktails</h2>
+          <h2 className="text-xl font-bold mb-4 text-black">Featured Cocktails</h2>
           <Slider {...settings} key={cocktails.length}>
             {cocktails.map((cocktail) => (
               <Link href={`/app/cocktails/${cocktail.idDrink}`} key={cocktail.idDrink}>
@@ -135,8 +133,8 @@ const Discover = () => {
                       className="w-full object-cover rounded-t"
                     />
                     <div className="p-4 rounded-b">
-                      <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strDrink}</h3>
-                      <p className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis">{cocktail.strCategory}</p>
+                      <h3 className="text-lg font-bold overflow-hidden whitespace-nowrap overflow-ellipsis text-black">{cocktail.strDrink}</h3>
+                      <p className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis ">{cocktail.strCategory}</p>
                     </div>
                   </div>
                 </div>
@@ -146,7 +144,7 @@ const Discover = () => {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Base Spirits</h2>
+          <h2 className="text-xl font-bold mb-4 text-black">Base Spirits</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {baseSpirits.map((ingredient) => (
               <Link href={`/app/cocktails/spirit/${ingredient.strIngredient1.toLowerCase()}`} key={ingredient.strIngredient1} className="bg-white rounded shadow p-4 text-center hover:bg-orange-100">
@@ -155,29 +153,28 @@ const Discover = () => {
                   alt={ingredient.strIngredient1}
                   className="w-full h-48 object-contain rounded mb-4"
                 />
-                {ingredient.strIngredient1}
+                <span className="text-black">{ingredient.strIngredient1}</span>
               </Link>
             ))}
           </div>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Cocktail Types</h2>
+          <h2 className="text-xl font-bold mb-4 text-black">Cocktail Types</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {Object.entries(cocktailTypesNames).map(([type, name]) => (
-              <Link 
-                href={`/app/cocktails/${name.toLowerCase().replace(/ /g, '-')}`} 
-                key={type} 
-                className="bg-white rounded shadow p-4 text-center hover:bg-orange-100"
-              >
-                <img
-                  src={getCocktailTypeImageUrl(type)}
-                  alt={type}
-                  className="w-full h-48 object-contain rounded mb-4"
-                />
-                {name}
-              </Link>
-            ))}
+            {Object.entries(cocktailTypesNames).map(([type, name]) => {
+              const url = `/app/cocktails/type/${name.toLowerCase().replace(/ /g, '-')}`;
+              return (
+                <Link href={url} key={type} className="bg-white rounded shadow p-4 text-center hover:bg-orange-100">
+                  <img
+                    src={getCocktailTypeImageUrl(type)}
+                    alt={type}
+                    className="w-full h-48 object-contain rounded mb-4"
+                  />
+                  <span className="text-black">{name}</span>
+                </Link>
+              );
+            })}
           </div>
         </section>
       </div>

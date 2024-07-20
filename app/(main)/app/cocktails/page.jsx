@@ -135,7 +135,7 @@ const CocktailsPage = () => {
                                 />
                                 <div className="p-4 flex flex-col justify-between" style={{ width: '50%' }}>
                                     <div>
-                                        <h2 className="text-lg font-bold">{cocktail.strDrink}</h2>
+                                        <h2 className="text-lg text-black font-bold">{cocktail.strDrink}</h2>
                                         <p className="text-gray-600">{cocktailCategories[cocktail.strCategory] || cocktail.strCategory}</p>
                                     </div>
                                     <div className="text-gray-600 overflow-hidden whitespace-nowrap overflow-ellipsis">
